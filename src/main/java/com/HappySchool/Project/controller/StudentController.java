@@ -1,5 +1,6 @@
 package com.HappySchool.Project.controller;
 
+<<<<<<< HEAD
 import java.net.URI;
 import java.util.List;
 
@@ -62,5 +63,8 @@ public class StudentController {
 		return ResponseEntity.ok().body(newStudent);
 		
 	}
+=======
+public class StudentController {
+>>>>>>> 93eb11438814bf161cbfb30cb4c1265a779c0c0e
 
 }
