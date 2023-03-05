@@ -53,7 +53,7 @@ public class StudentService {
 			entity.setNome(upstudent.getNome());
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found" + matricula);
+			throw new EntityNotFoundException("Matricula not found" + matricula);
 		}
 	}
 

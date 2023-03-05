@@ -1,6 +1,5 @@
 package com.HappySchool.Project.controller;
 
-<<<<<<< HEAD
 import java.net.URI;
 import java.util.List;
 
@@ -21,50 +20,44 @@ import com.HappySchool.Project.services.StudentService;
 
 import jakarta.validation.Valid;
 
-
-
-
-
 @RestController
 @RequestMapping(value = "/students")
 public class StudentController {
-	
+
 	@Autowired
 	private StudentService service;
-	
+
 	@GetMapping
-	public ResponseEntity <List<Student>> findAll(){
+	public ResponseEntity<List<Student>> findAll() {
 		List<Student> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@GetMapping(value="/{matricula}")
-	public ResponseEntity<Student> findById(@PathVariable Integer matricula){
+
+	@GetMapping(value = "/{matricula}")
+	public ResponseEntity<Student> findById(@PathVariable Integer matricula) {
 		Student obj = service.findById(matricula);
-		return ResponseEntity.ok().body(obj); 
+		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Student> insert(@RequestBody @Valid Student student){
+	public ResponseEntity<Student> insert(@RequestBody @Valid Student student) {
 		Student obj = service.insert(student);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}").buildAndExpand(obj.getMatricula()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
+				.buildAndExpand(obj.getMatricula()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
-	
-	@DeleteMapping(value="/{matricula}")
-	public ResponseEntity<Student> delete(@PathVariable Integer matricula){
+
+	@DeleteMapping(value = "/{matricula}")
+	public ResponseEntity<Student> delete(@PathVariable Integer matricula) {
 		service.delete(matricula);
-		return ResponseEntity.noContent().build(); 
+		return ResponseEntity.noContent().build();
 	}
-	
-	@PutMapping(value="/{matricula}")
-	public ResponseEntity<Student> update(@PathVariable Integer matricula, @RequestBody Student newStudent){
+
+	@PutMapping(value = "/{matricula}")
+	public ResponseEntity<Student> update(@PathVariable Integer matricula, @RequestBody Student newStudent) {
 		newStudent = service.update(matricula, newStudent);
 		return ResponseEntity.ok().body(newStudent);
-		
+
 	}
-=======
-public class StudentController {
->>>>>>> 93eb11438814bf161cbfb30cb4c1265a779c0c0e
 
 }
