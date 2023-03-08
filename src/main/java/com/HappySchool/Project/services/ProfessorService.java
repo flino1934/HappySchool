@@ -7,52 +7,53 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.HappySchool.Project.entities.Student;
-import com.HappySchool.Project.repository.StudentRepository;
+import com.HappySchool.Project.entities.Professor;
+import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class StudentService {
+public class ProfessorService {
 
 	@Autowired
-	private StudentRepository repository;
+	private ProfessorRepository repository;
 
-	public List<Student> findAll() {
+	public List<Professor> findAll() {
 		return repository.findAll();
 
 	}
 
-	public Student findById(Integer matricula) {
-		try{Optional<Student> obj = repository.findById(matricula);
+	public Professor findById(Integer matricula) {
+		try{Optional<Professor> obj = repository.findById(matricula);
 		return obj.get();
 	}catch (NoSuchElementException e) {
 		throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
 	}
 	}
 	public boolean cpfExists(String cpf) {
-		Optional<Student> StudentOptional = repository.findByCpf(cpf);
-		return StudentOptional.isPresent();
+		Optional<Professor> ProfessorOptional = repository.findByCpf(cpf);
+		return ProfessorOptional.isPresent();
 	}
 
-	public Student insert(Student obj) {
+	public Professor insert(Professor obj) {
 		return repository.save(obj);
 
 	}
 
 	public void delete(Integer matricula) {
-		repository.findById(matricula).map(Student -> {
-			repository.delete(Student);
+		repository.findById(matricula).map(Professor -> {
+			repository.delete(Professor);
 			return Void.TYPE;
 		}).orElseThrow(() -> new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist"));
 
 	}
 
-	public Student update(Integer matricula, Student upstudent) {
+	public Professor update(Integer matricula, Professor upProfessor) {
 		try {
-			Student entity = repository.getReferenceById(matricula);
-			entity.setNome(upstudent.getNome());
+			Professor entity = repository.getReferenceById(matricula);
+			entity.setNome(upProfessor.getNome());
+			entity.setEspecialidade(upProfessor.getEspecialidade());
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
