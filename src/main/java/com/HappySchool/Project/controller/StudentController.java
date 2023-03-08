@@ -40,7 +40,10 @@ public class StudentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Student> insert(@RequestBody @Valid Student student) {
+	public ResponseEntity<?> insert(@RequestBody @Valid Student student) {
+		if (service.cpfExists(student.getCpf())) {
+			return ResponseEntity.badRequest().body("CPF already exists");
+		}
 		Student obj = service.insert(student);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(obj.getMatricula()).toUri();
@@ -54,7 +57,8 @@ public class StudentController {
 	}
 
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<Student> update(@PathVariable Integer matricula, @RequestBody Student newStudent) {
+	public ResponseEntity<?> update(@PathVariable Integer matricula, @RequestBody Student newStudent) {
+
 		newStudent = service.update(matricula, newStudent);
 		return ResponseEntity.ok().body(newStudent);
 

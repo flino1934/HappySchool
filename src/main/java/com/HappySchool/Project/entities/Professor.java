@@ -1,9 +1,9 @@
 package com.HappySchool.Project.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.stereotype.Indexed;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_students")
-public class Student {
+@Table(name = "tb_professor")
+public class Professor {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer matricula;
@@ -23,16 +24,19 @@ public class Student {
 	@CPF
 	@Column(nullable = false)
 	private String cpf;
+	@Column(nullable = false, length = 225)
+	private String especialidade;
 
-	public Student() {
+	public Professor() {
 		super();
 	}
 
-	public Student(Integer matricula, String nome, String cpf) {
+	public Professor(Integer matricula, String nome, String cpf, String especialidade) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
+		this.especialidade = especialidade;
 	}
 
 	public Integer getMatricula() {
@@ -59,6 +63,14 @@ public class Student {
 		this.cpf = cpf;
 	}
 
+	public String getEspecialidade() {
+		return especialidade;
+	}
+
+	public void setEspecialidade(String especialidade) {
+		this.especialidade = especialidade;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(matricula);
@@ -72,13 +84,14 @@ public class Student {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Student other = (Student) obj;
+		Professor other = (Professor) obj;
 		return Objects.equals(matricula, other.matricula);
 	}
 
 	@Override
 	public String toString() {
-		return "Student [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + "]";
+		return "Professor [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + ", especialidade="
+				+ especialidade + "]";
 	}
 
 }
