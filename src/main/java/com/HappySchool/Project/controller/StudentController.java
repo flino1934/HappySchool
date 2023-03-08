@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.HappySchool.Project.entities.Student;
 import com.HappySchool.Project.services.StudentService;
+import com.HappySchool.Project.servicesException.RegistrationExceptions;
 
 import jakarta.validation.Valid;
 
@@ -42,7 +43,7 @@ public class StudentController {
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody @Valid Student student) {
 		if (service.cpfExists(student.getCpf())) {
-			return ResponseEntity.badRequest().body("CPF already exists");
+			throw new RegistrationExceptions("This CPF already exist");
 		}
 		Student obj = service.insert(student);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")

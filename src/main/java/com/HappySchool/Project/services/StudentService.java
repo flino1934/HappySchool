@@ -5,10 +5,12 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.HappySchool.Project.entities.Student;
 import com.HappySchool.Project.repository.StudentRepository;
+import com.HappySchool.Project.servicesException.DataExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -37,8 +39,11 @@ public class StudentService {
 	}
 
 	public Student insert(Student obj) {
-		return repository.save(obj);
+		try {return repository.save(obj);
 
+	}catch(DataIntegrityViolationException e){
+		throw new DataExceptions("There are Null fields");
+	}
 	}
 
 	public void delete(Integer matricula) {
@@ -49,14 +54,16 @@ public class StudentService {
 
 	}
 
-	public Student update(Integer matricula, Student upstudent) {
+	public Student update(Integer matricula, Student upstudent)  {
 		try {
 			Student entity = repository.getReferenceById(matricula);
 			entity.setNome(upstudent.getNome());
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
+		}catch(DataIntegrityViolationException e){
+			throw new DataExceptions("There are Null fields");
 		}
-	}
 
+}
 }

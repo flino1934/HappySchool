@@ -24,5 +24,28 @@ public class ResourceExceptionHandler {
 
 	}
 
-	
+	@ExceptionHandler(DataExceptions.class)
+	public ResponseEntity<StandardError> entityNotFound(DataExceptions e, HttpServletRequest request) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Null field");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
+	}
+
+	@ExceptionHandler(RegistrationExceptions.class)
+	public ResponseEntity<StandardError> entityFound(RegistrationExceptions e, HttpServletRequest request) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("This CPF is already registered");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
+	}
+
 }
