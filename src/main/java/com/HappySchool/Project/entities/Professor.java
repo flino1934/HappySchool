@@ -1,7 +1,9 @@
 package com.HappySchool.Project.entities;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,22 +25,30 @@ public class Professor {
 	@Column(nullable = false, length = 150)
 	private String nome;
 	@CPF
-	@Column(nullable = false)
+	@Column(nullable = false, length = 11)
 	private String cpf;
 	@Column(nullable = false, length = 225)
 	private String especialidade;
+
+	@OneToMany(mappedBy = "professor")
+	Set<Curso> curso = new HashSet<>();
 
 	public Professor() {
 		super();
 	}
 
-	public Professor(Integer matricula, String nome, String cpf, String especialidade) {
+	
+
+	public Professor(Integer matricula, String nome, @CPF String cpf, String especialidade, Set<Curso> curso) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.especialidade = especialidade;
+		this.curso = curso;
 	}
+
+
 
 	public Integer getMatricula() {
 		return matricula;
@@ -69,6 +80,10 @@ public class Professor {
 
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
+	}
+
+	public Set<Curso> getCurso() {
+		return curso;
 	}
 
 	@Override

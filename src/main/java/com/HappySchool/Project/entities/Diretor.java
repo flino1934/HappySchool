@@ -20,7 +20,7 @@ public class Diretor {
 	@Column(nullable = false, length = 150)
 	private String nome;
 	@CPF
-	@Column(nullable = false)
+	@Column(nullable = false, length = 11)
 	private String cpf;
 	
 	

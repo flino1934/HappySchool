@@ -1,15 +1,18 @@
 package com.HappySchool.Project.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.stereotype.Indexed;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,18 +24,36 @@ public class Student {
 	@Column(nullable = false, length = 150)
 	private String nome;
 	@CPF
-	@Column(nullable = false)
+	@Column(nullable = false, length = 11)
 	private String cpf;
+
+	@ManyToMany(mappedBy = "student")
+	private Set<Curso> curso = new HashSet<>();
+
+	@OneToMany(mappedBy = "studentId")
+	Set<Curso> cursoId = new HashSet<>();
 
 	public Student() {
 		super();
 	}
 
-	public Student(Integer matricula, String nome, String cpf) {
+	public Student(Integer matricula, String nome, String cpf, Set<Curso> curso) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
+		this.curso = curso;
+	}
+	
+
+	
+
+	public Set<Curso> getCurso() {
+		return curso;
+	}
+
+	public Set<Curso> getCursoId() {
+		return cursoId;
 	}
 
 	public Integer getMatricula() {
@@ -78,7 +99,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + "]";
+		return "Student [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + ", curso=" + curso + "]";
 	}
 
 }
