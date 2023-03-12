@@ -11,7 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,33 +26,18 @@ public class Student {
 	@Column(nullable = false, length = 11)
 	private String cpf;
 
-	@ManyToMany(mappedBy = "student")
-	private Set<Curso> curso = new HashSet<>();
-
-	@OneToMany(mappedBy = "studentId")
-	Set<Curso> cursoId = new HashSet<>();
+	@OneToMany(mappedBy = "id.student")
+	private Set<Grades> grades = new HashSet<>();
 
 	public Student() {
 		super();
 	}
 
-	public Student(Integer matricula, String nome, String cpf, Set<Curso> curso) {
+	public Student(Integer matricula, String nome, @CPF String cpf) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
-		this.curso = curso;
-	}
-	
-
-	
-
-	public Set<Curso> getCurso() {
-		return curso;
-	}
-
-	public Set<Curso> getCursoId() {
-		return cursoId;
 	}
 
 	public Integer getMatricula() {
@@ -80,6 +64,15 @@ public class Student {
 		this.cpf = cpf;
 	}
 
+	public Set<Curso> getCurso() {
+		Set<Curso> set = new HashSet<>();
+		for (Grades x: grades) {
+			set.add(x.getCurso());
+		}
+		return set;
+	
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(matricula);
@@ -99,7 +92,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + ", curso=" + curso + "]";
+		return "Student [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + "]";
 	}
 
 }

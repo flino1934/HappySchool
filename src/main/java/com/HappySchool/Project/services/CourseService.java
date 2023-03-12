@@ -58,6 +58,7 @@ public class CourseService {
 		try {
 			Curso entity = repository.getReferenceById(id);
 			entity.setNome(upCurso.getNome());
+			entity.setDescricao(upCurso.getDescricao());
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundExceptions("Course: " + id + " doesn't exist");

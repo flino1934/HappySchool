@@ -9,9 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,45 +22,25 @@ public class Curso {
 	private Integer id;
 	private String nome;
 	private String descricao;
-	private Double nota;
-
-	@ManyToMany
-	@JoinTable(name = "tb_cursos", joinColumns = @JoinColumn(name = "curso_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
-	private Set<Student> student = new HashSet<>();
 
 	@ManyToOne
-	@JoinColumn(name="professor_id")
+	@JoinColumn(name = "professor_id")
 	private Professor professor;
-	
-	@ManyToOne
-	@JoinColumn(name="student_id")
-	private Student studentId;
 
-	
+	@OneToMany(mappedBy = "id.curso")
+	private Set<Grades> grades = new HashSet<>();
 
-	public Curso(Integer id, String nome, String descricao, Double nota, Set<Student> student, Professor professor) {
+	public Curso() {
+
+	}
+
+	public Curso(Integer id, String nome, String descricao, Professor professor) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.nota = nota;
-		this.student = student;
 		this.professor = professor;
 	}
-	
-	
-
-	public Curso(Integer id, String nome, String descricao, Double nota, Professor professor, Student studentId) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.descricao = descricao;
-		this.nota = nota;
-		this.professor = professor;
-		this.studentId = studentId;
-	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -87,24 +66,12 @@ public class Curso {
 		this.descricao = descricao;
 	}
 
-	public Double getNota() {
-		return nota;
-	}
-
-	public void setNota(Double nota) {
-		this.nota = nota;
-	}
-
-	public Set<Student> getStudent() {
-		return student;
-	}
-
-	public void setStudent(Set<Student> student) {
-		this.student = student;
-	}
-
 	public Professor getProfessor() {
 		return professor;
+	}
+
+	public Set<Grades> getGrades() {
+		return grades;
 	}
 
 	@Override
@@ -126,8 +93,8 @@ public class Curso {
 
 	@Override
 	public String toString() {
-		return "Curso [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", nota=" + nota + ", student="
-				+ student + ", professor=" + professor + "]";
+		return "Curso [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", nota=" + ", professor="
+				+ professor + "]";
 	}
 
 }
