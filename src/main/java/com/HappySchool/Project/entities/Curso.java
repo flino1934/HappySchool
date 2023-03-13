@@ -27,9 +27,6 @@ public class Curso {
 	@JoinColumn(name = "professor_id")
 	private Professor professor;
 
-	@OneToMany(mappedBy = "id.curso")
-	private Set<Grades> grades = new HashSet<>();
-
 	public Curso() {
 
 	}
@@ -72,10 +69,6 @@ public class Curso {
 
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
-	}
-
-	public Set<Grades> getGrades() {
-		return grades;
 	}
 
 	@Override

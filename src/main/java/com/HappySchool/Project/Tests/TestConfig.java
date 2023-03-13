@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.HappySchool.Project.entities.Curso;
+import com.HappySchool.Project.entities.Grades;
 import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.entities.Student;
 import com.HappySchool.Project.repository.CouseRepository;
+import com.HappySchool.Project.repository.GradesRepository;
 import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.repository.StudentRepository;
 
@@ -27,6 +29,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private CouseRepository cursoRepository;
 	
+	@Autowired
+	private GradesRepository gradesRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -39,11 +44,19 @@ public class TestConfig implements CommandLineRunner{
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
 		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
 		
+		Grades g1 = new Grades(st1,c1, 9.0);
+		Grades g2 = new Grades(st2,c2 , 9.0);
+		Grades g3 = new Grades(st1,c2, 8.0);
+		
+		
+		
 		studentRepository.saveAll(Arrays.asList(st1,st2));
 		
 		professorRepository.saveAll(Arrays.asList(pf1,pf2));
 		
 		cursoRepository.saveAll(Arrays.asList(c1,c2));
+		
+		gradesRepository.saveAll(Arrays.asList(g1, g2, g3));
 		
 		
 	}

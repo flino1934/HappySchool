@@ -19,11 +19,12 @@ public class GradesPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
-	@JoinColumn(name="curso_id")
-	private Curso curso;
-	@ManyToOne
 	@JoinColumn(name="student_id")
 	private Student student;
+	@ManyToOne
+	@JoinColumn(name="curso_id")
+	private Curso curso;
+	
 	
 	
 	public Curso getCurso() {

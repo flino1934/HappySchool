@@ -1,8 +1,8 @@
 package com.HappySchool.Project.entities;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -27,7 +27,7 @@ public class Student {
 	private String cpf;
 
 	@OneToMany(mappedBy = "id.student")
-	private Set<Grades> grades = new HashSet<>();
+	private List<Grades> grades = new ArrayList<>();
 
 	public Student() {
 		super();
@@ -38,6 +38,7 @@ public class Student {
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
+
 	}
 
 	public Integer getMatricula() {
@@ -62,15 +63,6 @@ public class Student {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public Set<Curso> getCurso() {
-		Set<Curso> set = new HashSet<>();
-		for (Grades x: grades) {
-			set.add(x.getCurso());
-		}
-		return set;
-	
 	}
 
 	@Override

@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.HappySchool.Project.entities.pk.GradesPK;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tb_grades")
-public class Grades implements Serializable{
+@Table(name = "tb_grades")
+public class Grades implements Serializable {
 
 	/**
 	 * 
@@ -26,30 +25,31 @@ public class Grades implements Serializable{
 		super();
 	}
 
-	public Grades(Curso curso, Student student , Double grades) {
+	public Grades(Student student,Curso curso, Double grades) {
 		super();
 		id.setCurso(curso);
 		id.setStudent(student);
 		this.grades = grades;
 	}
-	
-	@JsonIgnore 
+
 	public Curso getCurso() {
 		return id.getCurso();
-		
+
 	}
+
 	public void setCurso(Curso curso) {
 		id.setCurso(curso);
-		
+
 	}
-	@JsonIgnore 
+
 	public Student getStudent() {
 		return id.getStudent();
-		
+
 	}
+
 	public void setStudent(Student student) {
 		id.setStudent(student);
-		
+
 	}
 
 	public Double getGrades() {
@@ -76,9 +76,5 @@ public class Grades implements Serializable{
 		Grades other = (Grades) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
 
 }
