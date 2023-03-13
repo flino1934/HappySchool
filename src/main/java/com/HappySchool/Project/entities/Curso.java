@@ -70,6 +70,10 @@ public class Curso {
 		return professor;
 	}
 
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
 	public Set<Grades> getGrades() {
 		return grades;
 	}

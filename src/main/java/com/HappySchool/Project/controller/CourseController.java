@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.HappySchool.Project.entities.Curso;
+import com.HappySchool.Project.entities.dto.CursoDTO;
 import com.HappySchool.Project.services.CourseService;
 
 import jakarta.validation.Valid;
@@ -40,7 +41,7 @@ public class CourseController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Curso> insert(@RequestBody @Valid Curso curso) {
+	public ResponseEntity<Curso> insert(@RequestBody @Valid CursoDTO curso) {
 		Curso obj = service.insert(curso);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();

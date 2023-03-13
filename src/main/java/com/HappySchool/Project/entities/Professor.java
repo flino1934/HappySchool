@@ -30,25 +30,18 @@ public class Professor {
 	@Column(nullable = false, length = 225)
 	private String especialidade;
 
-	@OneToMany(mappedBy = "professor")
-	Set<Curso> curso = new HashSet<>();
-
 	public Professor() {
 		super();
 	}
 
-	
-
-	public Professor(Integer matricula, String nome, @CPF String cpf, String especialidade, Set<Curso> curso) {
+	public Professor(Integer matricula, String nome, @CPF String cpf, String especialidade) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.especialidade = especialidade;
-		this.curso = curso;
+
 	}
-
-
 
 	public Integer getMatricula() {
 		return matricula;
@@ -80,10 +73,6 @@ public class Professor {
 
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
-	}
-
-	public Set<Curso> getCurso() {
-		return curso;
 	}
 
 	@Override
