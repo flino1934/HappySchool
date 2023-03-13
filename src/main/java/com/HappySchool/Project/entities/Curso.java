@@ -30,6 +30,15 @@ public class Curso {
 	public Curso() {
 
 	}
+	
+	
+
+	public Curso(Integer id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public Curso(Integer id, String nome, String descricao, Professor professor) {
 		super();

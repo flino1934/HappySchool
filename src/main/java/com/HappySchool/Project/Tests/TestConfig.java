@@ -44,9 +44,9 @@ public class TestConfig implements CommandLineRunner{
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
 		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
 		
-		Grades g1 = new Grades(st1,c1, 9.0);
-		Grades g2 = new Grades(st2,c2 , 9.0);
-		Grades g3 = new Grades(st1,c2, 8.0);
+		//Grades g1 = new Grades(st1,c1, 9.0);
+		//Grades g2 = new Grades(st2,c2 , 9.0);
+		//Grades g3 = new Grades(st1,c2, 8.0);
 		
 		
 		
@@ -56,7 +56,7 @@ public class TestConfig implements CommandLineRunner{
 		
 		cursoRepository.saveAll(Arrays.asList(c1,c2));
 		
-		gradesRepository.saveAll(Arrays.asList(g1, g2, g3));
+		//gradesRepository.saveAll(Arrays.asList(g1, g2, g3));
 		
 		
 	}
