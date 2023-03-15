@@ -42,9 +42,6 @@ public class ProfessorController {
 
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody @Valid Professor Professor) {
-		if (service.cpfExists(Professor.getCpf())) {
-			throw new RegistrationExceptions("This CPF already exist");
-		}
 		Professor obj = service.insert(Professor);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(obj.getMatricula()).toUri();

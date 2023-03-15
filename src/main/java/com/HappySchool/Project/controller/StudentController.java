@@ -42,9 +42,6 @@ public class StudentController {
 
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody @Valid Student student) {
-		if (service.cpfExists(student.getCpf())) {
-			throw new RegistrationExceptions("This CPF already exist");
-		}
 		Student obj = service.insert(student);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(obj.getMatricula()).toUri();

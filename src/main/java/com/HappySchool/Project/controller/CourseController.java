@@ -19,8 +19,6 @@ import com.HappySchool.Project.entities.Curso;
 import com.HappySchool.Project.entities.dto.CursoDTO;
 import com.HappySchool.Project.services.CourseService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping(value = "/cursos")
 public class CourseController {
@@ -41,10 +39,9 @@ public class CourseController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Curso> insert(@RequestBody @Valid CursoDTO curso) {
+	public ResponseEntity<Curso> insert(@RequestBody CursoDTO curso) {
 		Curso obj = service.insert(curso);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 

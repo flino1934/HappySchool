@@ -13,7 +13,6 @@ import com.HappySchool.Project.repository.CouseRepository;
 import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.servicesException.DataExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
-import com.HappySchool.Project.servicesException.RegistrationExceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -44,7 +43,8 @@ public class CourseService {
 	}
 
 	public Curso insert(CursoDTO dto) {
-			try{Integer idProfessor = dto.getProfessorId();
+		try {
+			Integer idProfessor = dto.getProfessorId();
 			Professor professor = Profrepository.findById(idProfessor)
 					.orElseThrow(() -> new EntityNotFoundExceptions("Professor doesn't exist"));
 			Curso curso = new Curso();
@@ -53,12 +53,11 @@ public class CourseService {
 			curso.setProfessor(professor);
 
 			return repository.save(curso);
-		}catch(DataIntegrityViolationException e){
+		} catch (DataIntegrityViolationException e) {
 			throw new DataExceptions("There are Null fields");
 		}
+
 	}
-		
-	
 
 	public void delete(Integer id) {
 		repository.findById(id).map(Curso -> {

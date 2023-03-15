@@ -12,6 +12,7 @@ import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.servicesException.DataExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
+import com.HappySchool.Project.servicesException.RegistrationExceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -27,24 +28,26 @@ public class ProfessorService {
 	}
 
 	public Professor findById(Integer matricula) {
-		try{Optional<Professor> obj = repository.findById(matricula);
-		return obj.get();
-	}catch (NoSuchElementException e) {
-		throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
+		return repository.findById(matricula)
+				.orElseThrow(() -> new EntityNotFoundExceptions("Course " + matricula + " doesn't exist"));
 	}
-	}
+
 	public boolean cpfExists(String cpf) {
 		Optional<Professor> ProfessorOptional = repository.findByCpf(cpf);
 		return ProfessorOptional.isPresent();
 	}
 
 	public Professor insert(Professor obj) {
-		try {return repository.save(obj);
+		if (cpfExists(obj.getCpf())) {
+			throw new RegistrationExceptions("This CPF already exist");
+		}
+		try {
+			return repository.save(obj);
 
-		}catch(DataIntegrityViolationException e){
+		} catch (DataIntegrityViolationException e) {
 			throw new DataExceptions("There are Null fields");
 		}
-		}
+	}
 
 	public void delete(Integer matricula) {
 		repository.findById(matricula).map(Professor -> {
@@ -62,7 +65,7 @@ public class ProfessorService {
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
-		}catch(DataIntegrityViolationException e){
+		} catch (DataIntegrityViolationException e) {
 			throw new DataExceptions("There are Null fields");
 		}
 	}

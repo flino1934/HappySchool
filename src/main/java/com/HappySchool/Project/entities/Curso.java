@@ -1,8 +1,6 @@
 package com.HappySchool.Project.entities;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,15 +27,18 @@ public class Curso {
 	public Curso() {
 
 	}
-	
-	
 
 	public Curso(Integer id) {
 		super();
 		this.id = id;
 	}
 
-
+	public Curso(Integer id, String nome, String descricao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+	}
 
 	public Curso(Integer id, String nome, String descricao, Professor professor) {
 		super();
