@@ -37,7 +37,7 @@ public class GradesService {
 	public Grades insert(GradesDTO dto) {
 		try {
 			Integer idCurso = dto.getCourseId();
-			Integer idStudent = dto.getStudentId();
+			Long idStudent = dto.getStudentId();
 			Curso curso = cursorepository.findById(idCurso)
 					.orElseThrow(() -> new EntityNotFoundExceptions("Curso doesn't exist"));
 			Student student = studentrepository.findById(idStudent)
@@ -54,7 +54,7 @@ public class GradesService {
 		}
 	}
 
-	public void delete(Integer studentId, Integer courseId) {
+	public void delete(Long studentId, Integer courseId) {
 		Student student = new Student(studentId);
 		Curso curso = new Curso(courseId);
 		GradesPK id = new GradesPK(student, curso);

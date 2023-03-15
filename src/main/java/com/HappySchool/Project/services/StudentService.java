@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.HappySchool.Project.entities.Student;
@@ -33,11 +34,10 @@ public class StudentService {
 
 	}
 
-	public Student findById(Integer matricula) {
+	public Student findById(Long matricula) {
 		return repository.findById(matricula)
 				.orElseThrow(() -> new EntityNotFoundExceptions("Course " + matricula + " doesn't exist"));
-		}
-	
+	}
 
 	public boolean cpfExists(String cpf) {
 		Optional<Student> StudentOptional = repository.findByCpf(cpf);
@@ -56,7 +56,7 @@ public class StudentService {
 		}
 	}
 
-	public void delete(Integer matricula) {
+	public void delete(Long matricula) {
 		repository.findById(matricula).map(Student -> {
 			repository.delete(Student);
 			return Void.TYPE;
@@ -64,7 +64,7 @@ public class StudentService {
 
 	}
 
-	public Student update(Integer matricula, Student upstudent) {
+	public Student update(Long matricula, Student upstudent) {
 		try {
 			Student entity = repository.getReferenceById(matricula);
 			entity.setNome(upstudent.getNome());

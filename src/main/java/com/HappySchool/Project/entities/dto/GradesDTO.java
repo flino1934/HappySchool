@@ -2,22 +2,22 @@ package com.HappySchool.Project.entities.dto;
 
 public class GradesDTO {
 
-	private Integer StudentId;
+	private Long StudentId;
 	private Integer CourseId;
 	private Double grades;
 
-	public GradesDTO(Integer studentId, Integer courseId, Double grades) {
+	public GradesDTO(Long studentId, Integer courseId, Double grades) {
 		super();
 		StudentId = studentId;
 		CourseId = courseId;
 		this.grades = grades;
 	}
 
-	public Integer getStudentId() {
+	public Long getStudentId() {
 		return StudentId;
 	}
 
-	public void setStudentId(Integer studentId) {
+	public void setStudentId(Long studentId) {
 		StudentId = studentId;
 	}
 

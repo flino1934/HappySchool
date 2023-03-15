@@ -35,8 +35,8 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		//Student st1 = new Student(null, "Maria Brown", "48374255854");
-		//Student st2 = new Student(null, "Alex Green", "70409951820");
+		Student st1 = new Student(null, "Maria Brown", "48374255854");
+		Student st2 = new Student(null, "Alex Green", "70409951820");
 		
 		//Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
 		//Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
@@ -50,7 +50,7 @@ public class TestConfig implements CommandLineRunner{
 		
 		
 		
-		//studentRepository.saveAll(Arrays.asList(st1,st2));
+		studentRepository.saveAll(Arrays.asList(st1,st2));
 		
 		//professorRepository.saveAll(Arrays.asList(pf1,pf2));
 		

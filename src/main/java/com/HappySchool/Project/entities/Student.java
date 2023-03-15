@@ -1,5 +1,6 @@
 package com.HappySchool.Project.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,10 +17,15 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_students")
-public class Student {
+public class Student implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer matricula;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long matricula;
 	@Column(nullable = false, length = 150)
 	private String nome;
 	@CPF
@@ -35,14 +41,14 @@ public class Student {
 	
 	
 
-	public Student(Integer matricula) {
+	public Student(Long matricula) {
 		super();
 		this.matricula = matricula;
 	}
 
 
 
-	public Student(Integer matricula, String nome, @CPF String cpf) {
+	public Student(Long matricula, String nome, @CPF String cpf) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
@@ -50,11 +56,11 @@ public class Student {
 
 	}
 
-	public Integer getMatricula() {
+	public Long getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(Long matricula) {
 		this.matricula = matricula;
 	}
 
@@ -78,10 +84,13 @@ public class Student {
 		return grades;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(matricula);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -94,6 +103,8 @@ public class Student {
 		Student other = (Student) obj;
 		return Objects.equals(matricula, other.matricula);
 	}
+
+
 
 	@Override
 	public String toString() {

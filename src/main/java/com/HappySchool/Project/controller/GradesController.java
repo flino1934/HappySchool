@@ -42,7 +42,7 @@ public class GradesController {
 	}
 	
 	@DeleteMapping(value = "/{studentId}/{courseId}")
-	public ResponseEntity<Grades> delete(@PathVariable("studentId") Integer studentId, @PathVariable("courseId") Integer courseId) {
+	public ResponseEntity<Grades> delete(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Integer courseId) {
 		service.delete(studentId,courseId);
 		return ResponseEntity.noContent().build();
 	}
