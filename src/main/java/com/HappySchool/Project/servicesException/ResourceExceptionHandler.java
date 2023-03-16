@@ -47,5 +47,18 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 
 	}
+	
+	@ExceptionHandler(DatabaseExceptions.class)
+	public ResponseEntity<StandardError> CannotExecute(DatabaseExceptions e, HttpServletRequest request) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Cannot execute this action");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
+	}
+	
 
 }

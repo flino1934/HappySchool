@@ -1,5 +1,8 @@
 package com.HappySchool.Project.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -56,8 +59,8 @@ public class StudentRepositoryTests {
 		// Asserts
 		Optional<Student> optionalStudent = repository.findById(student.getMatricula());
 
-		Assertions.assertEquals(optionalStudent.get().getMatricula(), student.getMatricula());
-		Assertions.assertEquals(optionalStudent.get().getNome(), student.getNome());
+		assertEquals(optionalStudent.get().getMatricula(), student.getMatricula());
+		assertEquals(optionalStudent.get().getNome(), student.getNome());
 	}
 
 	@Test
@@ -67,7 +70,7 @@ public class StudentRepositoryTests {
 		Optional<Student> result = repository.findById(nonexistingMatricula);
 
 		// Asserts
-		Assertions.assertFalse(result.isPresent());
+		assertFalse(result.isPresent());
 	}
 
 }

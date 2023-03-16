@@ -1,19 +1,17 @@
 package com.HappySchool.Project.services;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.HappySchool.Project.entities.Student;
-import com.HappySchool.Project.repository.CouseRepository;
-import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.repository.StudentRepository;
 import com.HappySchool.Project.servicesException.DataExceptions;
+import com.HappySchool.Project.servicesException.DatabaseExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 import com.HappySchool.Project.servicesException.RegistrationExceptions;
 
@@ -57,23 +55,23 @@ public class StudentService {
 	}
 
 	public void delete(Long matricula) {
-		repository.findById(matricula).map(Student -> {
-			repository.delete(Student);
-			return Void.TYPE;
-		}).orElseThrow(() -> new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist"));
-
-	}
-
-	public Student update(Long matricula, Student upstudent) {
 		try {
-			Student entity = repository.getReferenceById(matricula);
-			entity.setNome(upstudent.getNome());
-			return repository.save(entity);
+			repository.deleteById(matricula);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
 		} catch (DataIntegrityViolationException e) {
-			throw new DataExceptions("There are Null fields");
+			throw new DatabaseExceptions("Cannot execute this action");
 		}
+	}
 
+	public Student update(Long matricula, Student student) {
+       try { var studentUpdate = findById(matricula);
+        studentUpdate.setNome(student.getNome());
+        studentUpdate.setCpf(student.getCpf());
+        return repository.save(studentUpdate);
+    }catch (EntityNotFoundException e) {
+		throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
+	}
+	
 	}
 }
