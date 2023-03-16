@@ -2,10 +2,12 @@ package com.HappySchool.Project.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -88,11 +90,12 @@ public class StudentServiceTests {
 	}
 
 	@Test
-	@DisplayName("it should not save a student")
+	@DisplayName("it should not save a student with the same cpf")
 	public void InsertShouldNotReturnStudentWhenCpfExists() {
 		assertThrows(RegistrationExceptions.class, () -> {
 			service.insert(SameCpfStudent);
 		});
+		 verify(repository, never()).save(student);
 	}
 
 	@Test
@@ -100,7 +103,8 @@ public class StudentServiceTests {
 	public void InsertShouldReturnStudentWhenIdExists() {
 
 		Student entity = service.insert(student);
-		Assertions.assertNotNull(entity);
+		assertNotNull(entity);
+		assertEquals(student, entity);
 		verify(repository, Mockito.times(1)).save(student);
 	}
 
@@ -108,8 +112,11 @@ public class StudentServiceTests {
 	@DisplayName("it should update a student")
 	public void UpdateShouldReturnStudentWhenIdExist() {
 		Student entity = service.update(existingId, student);
-		Assertions.assertNotNull(entity);
+		assertNotNull(entity);
+		assertEquals(student, entity);
+	    assertEquals(student.getNome(), entity.getNome());
 		verify(repository, Mockito.times(1)).findById(existingId);
+		verify(repository, Mockito.times(1)).save(student);
 
 	}
 
@@ -137,8 +144,8 @@ public class StudentServiceTests {
 	@DisplayName("It should return a student by Id")
 	public void findByIdShouldReturnStudentWhenIdExist() {
 		Student result = service.findById(existingId);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(student, result);
+		assertNotNull(result);
+		assertEquals(student, result);
 		verify(repository, Mockito.times(1)).findById(existingId);
 	}
 
