@@ -38,15 +38,11 @@ public class Student implements Serializable {
 	public Student() {
 		super();
 	}
-	
-	
 
 	public Student(Long matricula) {
 		super();
 		this.matricula = matricula;
 	}
-
-
 
 	public Student(Long matricula, String nome, @CPF String cpf) {
 		super();
@@ -84,13 +80,10 @@ public class Student implements Serializable {
 		return grades;
 	}
 
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(matricula);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -103,8 +96,6 @@ public class Student implements Serializable {
 		Student other = (Student) obj;
 		return Objects.equals(matricula, other.matricula);
 	}
-
-
 
 	@Override
 	public String toString() {

@@ -31,6 +31,8 @@ public class Grades implements Serializable {
 
 	public Grades(Curso curso, Student student, Double grades) {
 		super();
+		id.setCurso(curso);
+		id.setStudent(student);
 		this.grades = grades;
 
 	}

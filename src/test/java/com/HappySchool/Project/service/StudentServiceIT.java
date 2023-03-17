@@ -36,7 +36,7 @@ public class StudentServiceIT {
 		existingId = 1L;
 		nonExistingId  = 1000L;
 		countTotalStudents = 2L;
-		dependentId = 3L;
+		dependentId = 2L;
 	}
 	
 	@Test
@@ -53,15 +53,15 @@ public class StudentServiceIT {
 		});
 	}
 	
-	//@Test
-	//@DisplayName("It should thrown databaseException")
-	//public void deleteShouldThrownDatabaseExceptionWhendependentId() {
+	@Test
+	@DisplayName("It should thrown databaseException")
+	public void deleteShouldThrownDatabaseExceptionWhendependentId() {
 
-		//assertThrows(DatabaseExceptions.class, () -> {
-			//service.delete(dependentId);
-		//});
+		assertThrows(DatabaseExceptions.class, () -> {
+	    service.delete(dependentId);
+		});
 
-	//}
+	}
 	
 	
 	
