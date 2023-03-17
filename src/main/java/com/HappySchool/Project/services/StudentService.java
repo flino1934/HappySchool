@@ -32,9 +32,8 @@ public class StudentService {
 	}
 
 	public Student findById(Long matricula) {
-		Optional<Student> obj = repository.findById(matricula);
-		Student student = obj.orElseThrow(() -> new EntityNotFoundExceptions("Matricula doesn't exist"));
-		return student;
+		return repository.findById(matricula)
+				.orElseThrow(() -> new EntityNotFoundExceptions("Matricula doesn't exist"));
 	}
 
 	public boolean cpfExists(String cpf) {
