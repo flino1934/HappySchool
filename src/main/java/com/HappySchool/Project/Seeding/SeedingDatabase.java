@@ -1,4 +1,4 @@
-package com.HappySchool.Project.Tests;
+package com.HappySchool.Project.Seeding;
 
 import java.util.Arrays;
 
@@ -18,15 +18,16 @@ import com.HappySchool.Project.repository.StudentRepository;
 
 @Configuration
 @Profile("test")
-public class TestConfig implements CommandLineRunner{
-	
+public class SeedingDatabase implements CommandLineRunner{
+
+
 	@Autowired
 	private StudentRepository studentRepository;
 	
 	@Autowired
 	private ProfessorRepository professorRepository;
 	
-	@Autowired
+    @Autowired
 	private CouseRepository cursoRepository;
 	
 	@Autowired
@@ -35,27 +36,31 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		//Student st1 = new Student(null, "Maria Brown", "48374255854");
-		//Student st2 = new Student(null, "Alex Green", "70409951820");
+		Student st1 = new Student(1L, "Maria Brown", "48374255854");
+		Student st2 = new Student(2L, "Alex Green", "70409951820");
 		
-		//Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
-		//Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
+		Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
+		Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
 		
-		//Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
-		//Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
+		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
+		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
+		
+		Grades g1 = new Grades(c1,st2 , 9.0);
 		
 		
 		
 		
 		
-		//studentRepository.saveAll(Arrays.asList(st1,st2));
 		
-		//professorRepository.saveAll(Arrays.asList(pf1,pf2));
+		studentRepository.saveAll(Arrays.asList(st1,st2));
 		
-		//cursoRepository.saveAll(Arrays.asList(c1,c2));
+		professorRepository.saveAll(Arrays.asList(pf1,pf2));
+		
+		cursoRepository.saveAll(Arrays.asList(c1,c2));
+		
+		gradesRepository.saveAll(Arrays.asList(g1));
 		
 		
 		
 	}
-
 }

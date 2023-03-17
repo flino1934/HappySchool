@@ -44,9 +44,8 @@ public class StudentServiceTests {
 	@Mock
 	private StudentRepository repository;
 
-	private long existingId;
-	private long nonExistingId;
-	private long dependentId;
+	private Long existingId;
+	private Long nonExistingId;
 	private List<Student> students;
 	private Student student;
 	private Student newCpfStudent;
@@ -57,29 +56,19 @@ public class StudentServiceTests {
 	void setUp() throws Exception {
 		existingId = 1L;
 		nonExistingId = 1000L;
-		dependentId = 3L;
 		existingCpf = "48374255854";
 		newCpfStudent = Factory.createNewStudent();
 		SameCpfStudent = Factory.SameCpfStudent();
 		student = Factory.createStudent();
 		students = Arrays.asList(new Student(null, "John", "48374255854"), new Student(null, "Jane", "70409951820"));
 
-		// methods void
-
-		// delete by id
-		doNothing().when(repository).deleteById(existingId);
-		// student id not found to delete
-		doThrow(EntityNotFoundException.class).when(repository).deleteById(nonExistingId);
-		// id dependent in another table
-		doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
-
-		// methods with return
+		// mock methods
 
 		// list students
 		Mockito.when(repository.findAll()).thenReturn(students);
 		// save student
 		Mockito.when(repository.save(any())).thenReturn(student);
-		// student by id
+		// find student by id
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(student));
 		// student id not found
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
@@ -94,7 +83,7 @@ public class StudentServiceTests {
 		assertThrows(RegistrationExceptions.class, () -> {
 			service.insert(SameCpfStudent);
 		});
-		 verify(repository, never()).save(student);
+		verify(repository, never()).save(student);
 	}
 
 	@Test
@@ -113,14 +102,14 @@ public class StudentServiceTests {
 		Student entity = service.update(existingId, student);
 		assertNotNull(entity);
 		assertEquals(student, entity);
-	    assertEquals(student.getNome(), entity.getNome());
+		assertEquals(student.getNome(), entity.getNome());
 		verify(repository, Mockito.times(1)).findById(existingId);
 		verify(repository, Mockito.times(1)).save(student);
 
 	}
 
 	@Test
-	@DisplayName("it should display an EntityNotFoundException")
+	@DisplayName("update an inexistent id should display an EntityNotFoundException")
 	public void UpdateShouldReturnStudentWhenIdDoesNotExist() {
 
 		assertThrows(EntityNotFoundExceptions.class, () -> {
@@ -161,36 +150,24 @@ public class StudentServiceTests {
 	}
 
 	@Test
-	@DisplayName("It should thrown databaseException")
-	public void deleteShouldThrownDatabaseExceptionWhendependentId() {
-
-		assertThrows(DatabaseExceptions.class, () -> {
-			service.delete(dependentId);
-		});
-
-		verify(repository, Mockito.times(1)).deleteById(dependentId);
-	}
-
-	@Test
-	@DisplayName("It should thrown EntityNotFoundException")
+	@DisplayName("Delete should thrown EntityNotFoundException")
 	public void deleteShouldThrownEntityNotFoundExceptionWhenIdNotExists() {
 
 		assertThrows(EntityNotFoundExceptions.class, () -> {
 			service.delete(nonExistingId);
 		});
-
-		verify(repository, Mockito.times(1)).deleteById(nonExistingId);
+		verify(repository, Mockito.times(1)).findById(nonExistingId);
+		verify(repository, Mockito.never()).save(any());
 	}
 
 	@Test
-	@DisplayName("It should throw nothing")
+	@DisplayName("Delete should throw nothing")
 	public void deleteShouldDoNothingWhenIdExists() {
 
-		assertDoesNotThrow(() -> {
-			service.delete(existingId);
-		});
+		service.delete(existingId);
 
-		verify(repository, Mockito.times(1)).deleteById(existingId);
+		verify(repository, Mockito.times(1)).findById(existingId);
+		verify(repository, Mockito.times(1)).delete(student);
 	}
 
 }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.HappySchool.Project.entities.Student;
 import com.HappySchool.Project.repository.StudentRepository;
@@ -40,33 +42,30 @@ public class StudentService {
 		return StudentOptional.isPresent();
 	}
 
-	public Student insert(Student obj) throws RegistrationExceptions{
+	public Student insert(Student obj) throws RegistrationExceptions {
 		if (cpfExists(obj.getCpf())) {
 			throw new RegistrationExceptions("This CPF already exist");
 		}
-			return repository.save(obj);
+		return repository.save(obj);
 
 	}
 
 	public void delete(Long matricula) {
 		try {
-			repository.deleteById(matricula);
-		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundExceptions("Matricula doesn't exist");
+			repository.findById(matricula).map(student -> {
+				repository.delete(student);
+				return Void.TYPE;
+			}).orElseThrow(() -> new EntityNotFoundExceptions("Cliente nao encontrado"));
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseExceptions("Cannot execute this action");
 		}
 	}
 
 	public Student update(Long matricula, Student student) {
-		try {
-			var studentUpdate = findById(matricula);
-			studentUpdate.setNome(student.getNome());
-			studentUpdate.setCpf(student.getCpf());
-			return repository.save(studentUpdate);
-		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundExceptions("Matricula doesn't exist");
-		}
+		return repository.findById(matricula).map(students -> {
+			students.setNome(student.getNome());
+			return repository.save(students);
+		}).orElseThrow(() -> new EntityNotFoundExceptions("Cliente nao encontrado"));
 
 	}
 }
