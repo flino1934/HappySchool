@@ -44,7 +44,7 @@ public class CourseService {
 
 	public Curso insert(CursoDTO dto) {
 		try {
-			Integer idProfessor = dto.getProfessorId();
+			Long idProfessor = dto.getProfessorId();
 			Professor professor = Profrepository.findById(idProfessor)
 					.orElseThrow(() -> new EntityNotFoundExceptions("Professor doesn't exist"));
 			Curso curso = new Curso();

@@ -4,13 +4,13 @@ public class CursoDTO {
 
 	private String nome;
 	private String descricao;
-	private Integer professorId;
+	private Long professorId;
 
 	public CursoDTO() {
 		super();
 	}
 
-	public CursoDTO(String nome, String descricao, Integer professorId) {
+	public CursoDTO(String nome, String descricao, Long professorId) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
@@ -33,11 +33,11 @@ public class CursoDTO {
 		this.descricao = descricao;
 	}
 
-	public Integer getProfessorId() {
+	public Long getProfessorId() {
 		return professorId;
 	}
 
-	public void setProfessorId(Integer professorId) {
+	public void setProfessorId(Long professorId) {
 		this.professorId = professorId;
 	}
 

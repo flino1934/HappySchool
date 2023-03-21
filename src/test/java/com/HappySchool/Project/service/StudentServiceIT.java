@@ -4,13 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-<<<<<<< HEAD
-=======
-import static org.mockito.Mockito.when;
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,11 +36,8 @@ public class StudentServiceIT {
 	private Long countTotalStudents;
 	private Student NewstudentId1ToUpdate;
 	private Student LaststudentId1ToUpdate;
-<<<<<<< HEAD
 	private Student newstudentWithId5;
-=======
 	private Student studentId5;
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 	private Student SameCpfStudent;
 
 	@BeforeEach
@@ -53,14 +45,7 @@ public class StudentServiceIT {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalStudents = 4L;
-<<<<<<< HEAD
-=======
-		LaststudentId1ToUpdate = Factory.createStudentToUpdate();
-		NewstudentId1ToUpdate = Factory.createStudent();
-		studentId5 = Factory.CreateStudent5();
-		SameCpfStudent = Factory.SameCpfStudent();
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
-
+		
 	}
 
 	@Test
@@ -112,18 +97,8 @@ public class StudentServiceIT {
 	@Test
 	@DisplayName("Save should save a student")
 	public void InsertShouldReturnStudentWhenIdExists() {
-<<<<<<< HEAD
 		// given
 		newstudentWithId5 = Factory.CreateStudent5();
-
-		// When
-		Student insertedStudent = service.insert(newstudentWithId5);
-		// then
-		assertNotNull(newstudentWithId5);
-		assertEquals(newstudentWithId5, insertedStudent);
-		assertEquals(newstudentWithId5.getNome(), insertedStudent.getNome());
-		assertEquals(newstudentWithId5.getCpf(), insertedStudent.getCpf());
-=======
 
 		// When
 		Student insertedStudent = service.insert(studentId5);
@@ -132,7 +107,6 @@ public class StudentServiceIT {
 		assertEquals(studentId5, insertedStudent);
 		assertEquals(studentId5.getNome(), insertedStudent.getNome());
 		assertEquals(studentId5.getCpf(), insertedStudent.getCpf());
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 		assertEquals(countTotalStudents + 1, repository.count());
 	}
 
@@ -140,13 +114,10 @@ public class StudentServiceIT {
 	@DisplayName("it should not save a student with the same cpf")
 	public void InsertShouldReturnStudentWhenCpfAlreadyExists() {
 
-<<<<<<< HEAD
 		// given
 		SameCpfStudent = Factory.SameCpfStudent();
 
 		// then
-=======
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 		assertThrows(RegistrationExceptions.class, () -> {
 			service.insert(SameCpfStudent);
 		});
@@ -156,12 +127,9 @@ public class StudentServiceIT {
 	@Test
 	@DisplayName("Update should update a student")
 	public void UpdateShouldReturnStudentWhenIdExist() {
-<<<<<<< HEAD
 		// given
 		LaststudentId1ToUpdate = Factory.createStudentToUpdate();
 		NewstudentId1ToUpdate = Factory.createStudent();
-=======
->>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 
 		// when
 		Student UpdatedstudentId1 = service.update(existingId, NewstudentId1ToUpdate);
