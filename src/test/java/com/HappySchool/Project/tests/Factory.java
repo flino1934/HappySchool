@@ -4,6 +4,8 @@ import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.entities.Student;
 
 public class Factory {
+	
+	//Factory for Student
 
 	public static Student createStudent() {
 		Student student = new Student(1L, "Jane Doe", "70409951820");
@@ -33,19 +35,32 @@ public class Factory {
 		Student sameCpfstudent = new Student(5L, "Maria", "33457137056");
 		return sameCpfstudent;
 	}
+	
+	
+	//Factory for Professor
+	
 
 	public static Professor createNewProfessor() {
-		Professor newCpfProfessor = new Professor(5L, "Maria", "33457137056", "Java");		
+		Professor newCpfProfessor = new Professor(4L, "Maria", "33457137056", "Java");		
 		return newCpfProfessor;
 	}
 
 	public static Professor SameCpfProfessor() {
-		Professor sameCpfProfessor = new Professor(1L, "Maria", "33457137056", "Java");			
+		Professor sameCpfProfessor = new Professor(1L, "Maria", "48374255854", "Java");			
 		return sameCpfProfessor;
 	}
 
 	public static Professor createProfessor() {
-		Professor createProfessor = new Professor(null, "Joao", "48374255854", "Java");		
+		Professor createProfessor = new Professor(1L, "Joao", "48374255854", "Java");		
+		return  createProfessor;
+	}
+	public static Professor createProfessorToUpdate() {
+		Professor Professor = new Professor(3L, "Maria Brown", "48374255854", "Java");
+		return Professor;
+	}
+	
+	public static Professor createProfessorId3() {
+		Professor createProfessor = new Professor(3L, "Joao", "48374255854", "Java");		
 		return  createProfessor;
 	}
 

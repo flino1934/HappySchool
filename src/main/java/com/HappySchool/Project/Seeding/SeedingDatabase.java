@@ -44,7 +44,7 @@ public class SeedingDatabase implements CommandLineRunner{
 		
 		Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
 		Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
-		Professor pf3 = new Professor(null, "Oliveira", "62557980030", "Python");
+		Professor pf3 = new Professor(null, "Diogo", "62557980030", "Python");
 
 		
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
