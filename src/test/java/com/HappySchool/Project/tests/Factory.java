@@ -10,7 +10,11 @@ public class Factory {
 	}
 	
 	public static Student createStudentToUpdate() {
+<<<<<<< HEAD
 		Student student = new Student(1L, "Maria Brown", "48374255854");
+=======
+		Student student = new Student(1L, "Jane", "70409951820");
+>>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 		return student;
 	}
 	

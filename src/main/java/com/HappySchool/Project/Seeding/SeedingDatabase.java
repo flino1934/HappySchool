@@ -48,7 +48,11 @@ public class SeedingDatabase implements CommandLineRunner{
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
 		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
 		
+<<<<<<< HEAD
 		Grades g1 = new Grades(c1,st2 , 9.0);
+=======
+		Grades g1 = new Grades(c1,st4 , 9.0);
+>>>>>>> 0f4d9efffc60f25cb7d0a6383fc798cd179bccce
 		
 		
 		
