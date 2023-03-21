@@ -54,17 +54,19 @@ public class StudentService {
 			repository.findById(matricula).map(student -> {
 				repository.delete(student);
 				return Void.TYPE;
-			}).orElseThrow(() -> new EntityNotFoundExceptions("Cliente nao encontrado"));
+			}).orElseThrow(() -> new EntityNotFoundExceptions("Student not found"));
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseExceptions("Cannot execute this action");
 		}
 	}
+	
+	
 
 	public Student update(Long matricula, Student student) {
 		return repository.findById(matricula).map(students -> {
 			students.setNome(student.getNome());
 			return repository.save(students);
-		}).orElseThrow(() -> new EntityNotFoundExceptions("Cliente nao encontrado"));
+		}).orElseThrow(() -> new EntityNotFoundExceptions("Student not found"));
 
 	}
 }

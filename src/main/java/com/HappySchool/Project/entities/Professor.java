@@ -17,7 +17,7 @@ public class Professor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer matricula;
+	private Long matricula;
 	@Column(nullable = false, length = 150)
 	private String nome;
 	@CPF
@@ -30,7 +30,7 @@ public class Professor {
 		super();
 	}
 
-	public Professor(Integer matricula, String nome, @CPF String cpf, String especialidade) {
+	public Professor(Long matricula, String nome, @CPF String cpf, String especialidade) {
 		super();
 		this.matricula = matricula;
 		this.nome = nome;
@@ -39,11 +39,11 @@ public class Professor {
 
 	}
 
-	public Integer getMatricula() {
+	public Long getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(Long matricula) {
 		this.matricula = matricula;
 	}
 

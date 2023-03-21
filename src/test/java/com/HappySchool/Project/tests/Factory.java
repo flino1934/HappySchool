@@ -9,6 +9,11 @@ public class Factory {
 		return student;
 	}
 	
+	public static Student createStudentToUpdate() {
+		Student student = new Student(1L, "Maria Brown", "48374255854");
+		return student;
+	}
+	
 	public static Student createNewStudent() {
 		Student newstudent = new Student(1L, "Jane Doe", "48374255854");
 		return newstudent;
@@ -18,6 +23,12 @@ public class Factory {
 		Student sameCpfstudent = new Student(1L, "Maria Brown", "48374255854");
 		return sameCpfstudent;
 	}
+	
+	public static Student CreateStudent5() {
+		Student sameCpfstudent = new Student(5L, "Maria", "33457137056");
+		return sameCpfstudent;
+	}
+	
 	
 
 }

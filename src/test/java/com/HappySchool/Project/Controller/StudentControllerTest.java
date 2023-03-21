@@ -58,13 +58,11 @@ public class StudentControllerTest {
 		student = Factory.createStudent();
 		students = Arrays.asList(new Student(null, "John", "48374255854"), new Student(null, "Jane", "70409951820"));
 
-		//Void methods
+		// Void methods
 		doNothing().when(service).delete(existingId);
 		doThrow(EntityNotFoundExceptions.class).when(service).delete(nonExistingId);
 		doThrow(DatabaseExceptions.class).when(service).delete(dependentId);
 
-		
-		
 		// methods with return
 
 		// list students
@@ -73,49 +71,45 @@ public class StudentControllerTest {
 		when(service.findById(existingId)).thenReturn(student);
 		// student by id
 		when(service.findById(nonExistingId)).thenThrow(EntityNotFoundExceptions.class);
-		//update 
+		// update
 		when(service.update(eq(existingId), any())).thenReturn(student);
-		//update exception
+		// update exception
 		when(service.update(eq(nonExistingId), any())).thenThrow(EntityNotFoundExceptions.class);
 		//
 		when(service.insert(any())).thenReturn(student);
 	}
-	
+
 	@Test
 	public void DeleteShouldReturnNoContentWhenIdExists() throws Exception {
-		ResultActions result = mockMvc.perform(delete("/students/{id}", existingId)
-				.accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(delete("/students/{id}", existingId).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNoContent());
 	}
-	
+
 	@Test
 	public void DeleteShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
-		ResultActions result = mockMvc.perform(delete("/students/{id}", nonExistingId)
-				.accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc
+				.perform(delete("/students/{id}", nonExistingId).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
-	
+
 	@Test
 	public void DeleteShouldReturnDatabaseExceptionWhenIdIsDependent() throws Exception {
-		ResultActions result = mockMvc.perform(delete("/students/{id}", dependentId)
-				.accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc
+				.perform(delete("/students/{id}", dependentId).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
 	public void InsertShouldCreateStudent() throws Exception {
 		String jsonBody = objectMapper.writeValueAsString(student);
-		ResultActions result = mockMvc.perform(post("/students")
-				.content(jsonBody)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(post("/students").content(jsonBody)
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isCreated());
 		result.andExpect(jsonPath("$.matricula").exists());
 		result.andExpect(jsonPath("$.nome").exists());
 		result.andExpect(jsonPath("$.cpf").exists());
 	}
-	
 
 	@Test
 	public void updateShouldReturnStudentWhenIdExists() throws Exception {
@@ -137,7 +131,7 @@ public class StudentControllerTest {
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isNotFound());
-		
+
 	}
 
 	@Test

@@ -8,7 +8,7 @@ import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.entities.Student;
 
-public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
+public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 	
 	Optional<Professor> findByCpf(String cpf);
 

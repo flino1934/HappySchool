@@ -1,35 +1,35 @@
 package com.HappySchool.Project.services;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.repository.ProfessorRepository;
-import com.HappySchool.Project.servicesException.DataExceptions;
+import com.HappySchool.Project.servicesException.DatabaseExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 import com.HappySchool.Project.servicesException.RegistrationExceptions;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProfessorService {
 
-	@Autowired
-	private ProfessorRepository repository;
+	private final ProfessorRepository repository;
+
+	public ProfessorService(ProfessorRepository repository) {
+		this.repository = repository;
+
+	}
 
 	public List<Professor> findAll() {
 		return repository.findAll();
 
 	}
 
-	public Professor findById(Integer matricula) {
+	public Professor findById(Long matricula) {
 		return repository.findById(matricula)
-				.orElseThrow(() -> new EntityNotFoundExceptions("Course " + matricula + " doesn't exist"));
+				.orElseThrow(() -> new EntityNotFoundExceptions("Matricula doesn't exist"));
 	}
 
 	public boolean cpfExists(String cpf) {
@@ -37,37 +37,32 @@ public class ProfessorService {
 		return ProfessorOptional.isPresent();
 	}
 
-	public Professor insert(Professor obj) {
+	public Professor insert(Professor obj) throws RegistrationExceptions {
 		if (cpfExists(obj.getCpf())) {
 			throw new RegistrationExceptions("This CPF already exist");
 		}
-		try {
-			return repository.save(obj);
+		return repository.save(obj);
 
+	}
+
+	public void delete(Long matricula) {
+		try {
+			repository.findById(matricula).map(Professor -> {
+				repository.delete(Professor);
+				return Void.TYPE;
+			}).orElseThrow(() -> new EntityNotFoundExceptions("Professor not found"));
 		} catch (DataIntegrityViolationException e) {
-			throw new DataExceptions("There are Null fields");
+			throw new DatabaseExceptions("Cannot execute this action");
 		}
 	}
+	
+	
 
-	public void delete(Integer matricula) {
-		repository.findById(matricula).map(Professor -> {
-			repository.delete(Professor);
-			return Void.TYPE;
-		}).orElseThrow(() -> new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist"));
+	public Professor update(Long matricula, Professor Professor) {
+		return repository.findById(matricula).map(Professors -> {
+			Professors.setNome(Professor.getNome());
+			return repository.save(Professors);
+		}).orElseThrow(() -> new EntityNotFoundExceptions("Professor not found"));
 
 	}
-
-	public Professor update(Integer matricula, Professor upProfessor) {
-		try {
-			Professor entity = repository.getReferenceById(matricula);
-			entity.setNome(upProfessor.getNome());
-			entity.setEspecialidade(upProfessor.getEspecialidade());
-			return repository.save(entity);
-		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundExceptions("Matricula: " + matricula + " doesn't exist");
-		} catch (DataIntegrityViolationException e) {
-			throw new DataExceptions("There are Null fields");
-		}
-	}
-
 }

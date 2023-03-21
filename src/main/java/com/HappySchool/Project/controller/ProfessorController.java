@@ -35,7 +35,7 @@ public class ProfessorController {
 	}
 
 	@GetMapping(value = "/{matricula}")
-	public ResponseEntity<Professor> findById(@PathVariable Integer matricula) {
+	public ResponseEntity<Professor> findById(@PathVariable Long matricula) {
 		Professor obj = service.findById(matricula);
 		return ResponseEntity.ok().body(obj);
 	}
@@ -49,13 +49,13 @@ public class ProfessorController {
 	}
 
 	@DeleteMapping(value = "/{matricula}")
-	public ResponseEntity<Professor> delete(@PathVariable Integer matricula) {
+	public ResponseEntity<Professor> delete(@PathVariable Long matricula) {
 		service.delete(matricula);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<?> update(@PathVariable Integer matricula, @RequestBody Professor newProfessor) {
+	public ResponseEntity<?> update(@PathVariable Long matricula, @RequestBody Professor newProfessor) {
 
 		newProfessor = service.update(matricula, newProfessor);
 		return ResponseEntity.ok().body(newProfessor);

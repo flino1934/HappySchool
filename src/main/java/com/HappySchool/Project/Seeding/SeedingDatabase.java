@@ -39,6 +39,8 @@ public class SeedingDatabase implements CommandLineRunner{
 		Student st1 = new Student(null, "Maria Brown", "48374255854");
 		Student st2 = new Student(null, "Alex Green", "70409951820");
 		Student st3 = new Student(null, "Alex", "89192344003");
+		Student st4 = new Student(4L, "Oliver", "71308435002");
+		
 		
 		Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
 		Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
@@ -46,14 +48,14 @@ public class SeedingDatabase implements CommandLineRunner{
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
 		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
 		
-		Grades g1 = new Grades(c1,st3 , 9.0);
+		Grades g1 = new Grades(c1,st2 , 9.0);
 		
 		
 		
 		
 		
 		
-		studentRepository.saveAll(Arrays.asList(st1,st2,st3));
+		studentRepository.saveAll(Arrays.asList(st1,st2,st3,st4));
 		
 		professorRepository.saveAll(Arrays.asList(pf1,pf2));
 		
