@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.HappySchool.Project.entities.Student;
 import com.HappySchool.Project.repository.StudentRepository;
 import com.HappySchool.Project.services.StudentService;
+import com.HappySchool.Project.servicesException.DatabaseExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 import com.HappySchool.Project.servicesException.RegistrationExceptions;
 import com.HappySchool.Project.tests.Factory;
@@ -46,9 +48,11 @@ public class StudentServiceTests {
 	private Student SameCpfStudent;
 	private Student SameCpfStudent1;
 	private String existingCpf;
+	private Long dependentId;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		dependentId = 2L;
 		existingId = 1L;
 		nonExistingId = 1000L;
 		existingCpf = "48374255854";
@@ -98,6 +102,7 @@ public class StudentServiceTests {
 
 		// then
 		assertNotNull(studentAlreadyupdated);
+		assertEquals(student, studentAlreadyupdated);
 		assertEquals(studentToUpdate.getNome(), studentAlreadyupdated.getNome());
 		verify(repository, Mockito.times(1)).findById(existingId);
 		verify(repository, Mockito.times(1)).save(student);
@@ -154,7 +159,7 @@ public class StudentServiceTests {
 		List<Student> result = service.findAll();
 
 		// then
-		Assertions.assertNotNull(result);
+		assertNotNull(result);
 		assertEquals(students.size(), result.size());
 		assertEquals(students, result);
 		verify(repository, Mockito.times(1)).findAll();
@@ -172,7 +177,7 @@ public class StudentServiceTests {
 			service.delete(nonExistingId);
 		});
 		verify(repository, Mockito.times(1)).findById(nonExistingId);
-		verify(repository, Mockito.never()).save(any());
+		verify(repository, Mockito.never()).delete(any());
 	}
 
 	@Test
@@ -186,6 +191,19 @@ public class StudentServiceTests {
 		// then
 		verify(repository, Mockito.times(1)).findById(existingId);
 		verify(repository, Mockito.times(1)).delete(student);
+	}
+
+	@Test
+	@DisplayName("Delete should thrown DatabaseException")
+	public void deleteShouldThrownDatabaseExceptionWhenIdisDependent() {
+		// when
+		doThrow(DatabaseExceptions.class).when(repository).findById(dependentId);
+		// then
+		assertThrows(DatabaseExceptions.class, () -> {
+			service.delete(dependentId);
+		});
+		verify(repository, Mockito.times(1)).findById(dependentId);
+		verify(repository, Mockito.never()).delete(any());
 	}
 
 }

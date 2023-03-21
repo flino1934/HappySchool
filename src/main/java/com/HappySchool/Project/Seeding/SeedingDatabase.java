@@ -44,6 +44,8 @@ public class SeedingDatabase implements CommandLineRunner{
 		
 		Professor pf1 = new Professor(null, "Marcos", "48374255854", "Java" );
 		Professor pf2 = new Professor(null, "Oliveira", "70409951820", "Python");
+		Professor pf3 = new Professor(null, "Oliveira", "62557980030", "Python");
+
 		
 		Curso c1 = new Curso(null, "Java", "Java com Spring", pf1);
 		Curso c2 = new Curso(null, "Python","Python com Jupyter",  pf2);
@@ -59,7 +61,7 @@ public class SeedingDatabase implements CommandLineRunner{
 		
 		studentRepository.saveAll(Arrays.asList(st1,st2,st3,st4));
 		
-		professorRepository.saveAll(Arrays.asList(pf1,pf2));
+		professorRepository.saveAll(Arrays.asList(pf1,pf2,pf3));
 		
 		cursoRepository.saveAll(Arrays.asList(c1,c2));
 		

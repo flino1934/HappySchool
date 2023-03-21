@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.repository.ProfessorRepository;
 import com.HappySchool.Project.services.ProfessorService;
+import com.HappySchool.Project.servicesException.DatabaseExceptions;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 import com.HappySchool.Project.servicesException.RegistrationExceptions;
 import com.HappySchool.Project.tests.Factory;
@@ -45,12 +47,14 @@ public class ProfessorServiceTests {
 	private Professor SameCpfProfessor;
 	private Professor SameCpfProfessor1;
 	private String existingCpf;
+	private Long dependentId;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		dependentId = 3L;
 		existingId = 1L;
 		nonExistingId = 1000L;
-		existingCpf = "48374255854";
+		existingCpf = "33457137056";
 		SameCpfProfessor = Factory.createNewProfessor();
 		SameCpfProfessor1 = Factory.SameCpfProfessor();
 		Professor = Factory.createProfessor();
@@ -171,7 +175,7 @@ public class ProfessorServiceTests {
 			service.delete(nonExistingId);
 		});
 		verify(repository, Mockito.times(1)).findById(nonExistingId);
-		verify(repository, Mockito.never()).save(any());
+		verify(repository, Mockito.never()).delete(any());
 	}
 
 	@Test
@@ -185,6 +189,22 @@ public class ProfessorServiceTests {
 		// then
 		verify(repository, Mockito.times(1)).findById(existingId);
 		verify(repository, Mockito.times(1)).delete(Professor);
+	}
+	
+
+	@Test
+	@DisplayName("Delete should thrown DatabaseException")
+	public void deleteShouldThrownDatabaseExceptionWhenIdisDependent() {
+
+	
+		// when
+		doThrow(DatabaseExceptions.class).when(repository).findById(dependentId);
+		// then
+		assertThrows(DatabaseExceptions.class, () -> {
+			service.delete(dependentId);
+		});
+		verify(repository, Mockito.times(1)).findById(dependentId);
+		verify(repository, Mockito.never()).delete(any());
 	}
 
 }
