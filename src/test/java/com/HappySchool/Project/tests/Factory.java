@@ -1,5 +1,6 @@
 package com.HappySchool.Project.tests;
 
+import com.HappySchool.Project.entities.Professor;
 import com.HappySchool.Project.entities.Student;
 
 public class Factory {
@@ -9,8 +10,12 @@ public class Factory {
 		return student;
 	}
 
-	public static Student createStudentToUpdate() {
+	public static Student createStudentNewStudentToUpadate() {
 		Student student = new Student(1L, "Jane", "70409951820");
+		return student;
+	}
+	public static Student createStudentToUpdate() {
+		Student student = new Student(1L, "Maria Brown", "48374255854");
 		return student;
 	}
 
@@ -27,6 +32,21 @@ public class Factory {
 	public static Student CreateStudent5() {
 		Student sameCpfstudent = new Student(5L, "Maria", "33457137056");
 		return sameCpfstudent;
+	}
+
+	public static Professor createNewProfessor() {
+		Professor newCpfProfessor = new Professor(5L, "Maria", "33457137056", "Java");		
+		return newCpfProfessor;
+	}
+
+	public static Professor SameCpfProfessor() {
+		Professor sameCpfProfessor = new Professor(1L, "Maria", "33457137056", "Java");			
+		return sameCpfProfessor;
+	}
+
+	public static Professor createProfessor() {
+		Professor createProfessor = new Professor(null, "Joao", "48374255854", "Java");		
+		return  createProfessor;
 	}
 
 }

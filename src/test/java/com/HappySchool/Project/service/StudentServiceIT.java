@@ -37,7 +37,6 @@ public class StudentServiceIT {
 	private Student NewstudentId1ToUpdate;
 	private Student LaststudentId1ToUpdate;
 	private Student newstudentWithId5;
-	private Student studentId5;
 	private Student SameCpfStudent;
 
 	@BeforeEach
@@ -45,7 +44,7 @@ public class StudentServiceIT {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalStudents = 4L;
-		
+
 	}
 
 	@Test
@@ -101,12 +100,12 @@ public class StudentServiceIT {
 		newstudentWithId5 = Factory.CreateStudent5();
 
 		// When
-		Student insertedStudent = service.insert(studentId5);
+		Student insertedStudent = service.insert(newstudentWithId5);
 		// then
-		assertNotNull(studentId5);
-		assertEquals(studentId5, insertedStudent);
-		assertEquals(studentId5.getNome(), insertedStudent.getNome());
-		assertEquals(studentId5.getCpf(), insertedStudent.getCpf());
+		assertNotNull(newstudentWithId5);
+		assertEquals(newstudentWithId5, insertedStudent);
+		assertEquals(newstudentWithId5.getNome(), insertedStudent.getNome());
+		assertEquals(newstudentWithId5.getCpf(), insertedStudent.getCpf());
 		assertEquals(countTotalStudents + 1, repository.count());
 	}
 

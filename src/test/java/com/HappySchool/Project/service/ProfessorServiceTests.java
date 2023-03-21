@@ -22,29 +22,28 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.HappySchool.Project.entities.Student;
-import com.HappySchool.Project.repository.StudentRepository;
-import com.HappySchool.Project.services.StudentService;
+import com.HappySchool.Project.entities.Professor;
+import com.HappySchool.Project.repository.ProfessorRepository;
+import com.HappySchool.Project.services.ProfessorService;
 import com.HappySchool.Project.servicesException.EntityNotFoundExceptions;
 import com.HappySchool.Project.servicesException.RegistrationExceptions;
 import com.HappySchool.Project.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
-public class StudentServiceTests {
+public class ProfessorServiceTests {
 
 	@InjectMocks
-	private StudentService service;
+	private ProfessorService service;
 
 	@Mock
-	private StudentRepository repository;
+	private ProfessorRepository repository;
 
 	private Long existingId;
 	private Long nonExistingId;
-	private List<Student> students;
-	private Student student;
-	private Student studentToUpdate;
-	private Student SameCpfStudent;
-	private Student SameCpfStudent1;
+	private List<Professor> Professors;
+	private Professor Professor;
+	private Professor SameCpfProfessor;
+	private Professor SameCpfProfessor1;
 	private String existingCpf;
 
 	@BeforeEach
@@ -52,68 +51,68 @@ public class StudentServiceTests {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		existingCpf = "48374255854";
-		SameCpfStudent = Factory.createNewStudent();
-		SameCpfStudent1 = Factory.SameCpfStudent();
-		student = Factory.createStudent();
-		studentToUpdate = Factory.createStudentNewStudentToUpadate();
-		students = Arrays.asList(new Student(null, "John", "48374255854"), new Student(null, "Jane", "70409951820"));
+		SameCpfProfessor = Factory.createNewProfessor();
+		SameCpfProfessor1 = Factory.SameCpfProfessor();
+		Professor = Factory.createProfessor();
+		Professors = Arrays.asList(new Professor(null, "John", "48374255854", "Java"), new Professor(null, "Jane", "70409951820", "Java"));
 
 	}
 
 	@Test
-	@DisplayName("it should throw exception when exist a student with the same cpf")
-	public void InsertShouldNotReturnStudentWhenCpfExists() {
+	@DisplayName("it should throw exception when exist a Professor with the same cpf")
+	public void InsertShouldNotReturnProfessorWhenCpfExists() {
 
 		// when
-		when(repository.findByCpf(existingCpf)).thenReturn(Optional.of(SameCpfStudent));
+		when(repository.findByCpf(existingCpf)).thenReturn(Optional.of(SameCpfProfessor));
 
 		// then
 		assertThrows(RegistrationExceptions.class, () -> {
-			service.insert(SameCpfStudent1);
+			service.insert(SameCpfProfessor1);
 		});
 		verify(repository, never()).save(any());
 	}
 
 	@Test
-	@DisplayName("it should save a student")
-	public void InsertShouldReturnStudentWhenIdExists() {
+	@DisplayName("it should save a Professor")
+	public void InsertShouldReturnProfessorWhenIdExists() {
 		// when
-		when(repository.save(any())).thenReturn(student);
-		Student savedStudent = service.insert(student);
+		when(repository.save(any())).thenReturn(Professor);
+		Professor savedProfessor = service.insert(Professor);
 
 		// then
-		assertNotNull(savedStudent);
-		assertEquals(student, savedStudent);
-		verify(repository, Mockito.times(1)).save(student);
+		assertNotNull(savedProfessor);
+		assertEquals(Professor, savedProfessor);
+		verify(repository, Mockito.times(1)).save(Professor);
 	}
 
 	@Test
-	@DisplayName("it should update a student")
-	public void UpdateShouldReturnStudentWhenIdExist() {
+	@DisplayName("it should update a Professor")
+	public void UpdateShouldReturnProfessorWhenIdExist() {
 
 		// when
-		when(repository.findById(existingId)).thenReturn(Optional.of(student));
-		when(repository.save(any())).thenReturn(student);
-		Student studentAlreadyupdated = service.update(existingId, studentToUpdate);
+		when(repository.findById(existingId)).thenReturn(Optional.of(Professor));
+		when(repository.save(Professor)).thenReturn(Professor);
+		Professor entity = service.update(existingId, Professor);
 
 		// then
-		assertNotNull(studentAlreadyupdated);
-		assertEquals(studentToUpdate.getNome(), studentAlreadyupdated.getNome());
+		assertNotNull(entity);
+		assertEquals(Professor, entity);
+		assertEquals(Professor.getNome(), entity.getNome());
 		verify(repository, Mockito.times(1)).findById(existingId);
-		verify(repository, Mockito.times(1)).save(student);
+		verify(repository, Mockito.times(1)).save(Professor);
 
 	}
 
 	@Test
 	@DisplayName("update an inexistent id should display an EntityNotFoundException")
-	public void UpdateShouldReturnStudentWhenIdDoesNotExist() {
+	public void UpdateShouldReturnProfessorWhenIdDoesNotExist() {
 
 		// when
 		when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
 		// then
 		assertThrows(EntityNotFoundExceptions.class, () -> {
-			service.update(nonExistingId, student);
+			service.update(nonExistingId, Professor);
 		});
 		verify(repository, Mockito.times(1)).findById(nonExistingId);
 		verify(repository, Mockito.never()).save(any());
@@ -121,7 +120,7 @@ public class StudentServiceTests {
 
 	@Test
 	@DisplayName("It should thrown EntityNotFoundException")
-	public void findByIdShouldReturnStudentWhenIdDoesNotExist() {
+	public void findByIdShouldReturnProfessorWhenIdDoesNotExist() {
 		// when
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
@@ -133,30 +132,30 @@ public class StudentServiceTests {
 	}
 
 	@Test
-	@DisplayName("It should return a student by Id")
-	public void findByIdShouldReturnStudentWhenIdExist() {
+	@DisplayName("It should return a Professor by Id")
+	public void findByIdShouldReturnProfessorWhenIdExist() {
 		// when
-	    when(repository.findById(existingId)).thenReturn(Optional.of(student));
-		Student result = service.findById(existingId);
+	    when(repository.findById(existingId)).thenReturn(Optional.of(Professor));
+		Professor result = service.findById(existingId);
 
 		// then
 		assertNotNull(result);
-		assertEquals(student, result);
+		assertEquals(Professor, result);
 		verify(repository, Mockito.times(1)).findById(existingId);
 	}
 
 	@Test
-	@DisplayName("Should return a list of students")
+	@DisplayName("Should return a list of Professors")
 	public void testFindAll() {
 
 		// when
-		Mockito.when(repository.findAll()).thenReturn(students);
-		List<Student> result = service.findAll();
+		Mockito.when(repository.findAll()).thenReturn(Professors);
+		List<Professor> result = service.findAll();
 
 		// then
 		Assertions.assertNotNull(result);
-		assertEquals(students.size(), result.size());
-		assertEquals(students, result);
+		assertEquals(Professors.size(), result.size());
+		assertEquals(Professors, result);
 		verify(repository, Mockito.times(1)).findAll();
 	}
 
@@ -180,12 +179,12 @@ public class StudentServiceTests {
 	public void deleteShouldDoNothingWhenIdExists() {
 
 		// when
-		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(student));
+		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(Professor));
 		service.delete(existingId);
 
 		// then
 		verify(repository, Mockito.times(1)).findById(existingId);
-		verify(repository, Mockito.times(1)).delete(student);
+		verify(repository, Mockito.times(1)).delete(Professor);
 	}
 
 }
